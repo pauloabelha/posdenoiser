@@ -18,3 +18,16 @@ def add_noise_torch(image_batch, blackout_prob):
         image_numpy[:, keep_idxs] = 0
         image_batch[i] = torch.from_numpy(image_numpy)
     return image_batch
+
+# https://pytorch.org/docs/stable/nn.html#convolution-layers
+def conv2d_output_size(h_in, w_in, kernel, stride=(1, 1), padding=(0, 0), dilation=(1, 1)):
+    h_out = int(( (h_in + (2*padding[0]) - (dilation[0]*kernel[0] - 1) - 1)/stride[0]) + 1)
+    w_out = int(((w_in + (2 * padding[1]) - (dilation[1] * kernel[1] - 1) - 1) / stride[1]) + 1)
+    return h_out, w_out
+
+def conv2d_output_size_from_layer(h_in, w_in, conv2d_layer):
+    kernel = conv2d_layer.kernel_size
+    stride = conv2d_layer.stride
+    padding = conv2d_layer.padding
+    dilation = conv2d_layer.dilation
+    return conv2d_output_size(h_in, w_in, kernel, stride, padding, dilation)
