@@ -37,6 +37,10 @@ img_res = (64, 64)
 torch.manual_seed(args.seed)
 
 device = torch.device("cuda" if args.cuda else "cpu")
+if args.cuda:
+    print("Using CUDA")
+else:
+    print("Not using CUDA")
 
 kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
 train_loader = ycb_loader.DataLoader(args.dataset_folder + 'train_small/', batch_size=args.batch_size, img_res=img_res)
