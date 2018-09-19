@@ -18,7 +18,7 @@ import numpy as np
 parser = argparse.ArgumentParser(description='VAE MNIST Example')
 parser.add_argument('--dataset-folder', type=str, required=True, default='', metavar='N',
                     help='input batch size for training (default: 128)')
-parser.add_argument('--batch-size', type=int, default=2, metavar='N',
+parser.add_argument('--batch-size', type=int, default=16, metavar='N',
                     help='input batch size for training (default: 128)')
 parser.add_argument('--epochs', type=int, default=100, metavar='N',
                     help='number of epochs to train (default: 10)')
@@ -136,7 +136,5 @@ for epoch in range(1, args.epochs + 1):
         sample = sample[:, 0:3, :, :]
         sample *= 255
         sample = sample.int()
-        print('\tMean of first image form batch: {}'.format(np.mean(sample[0].numpy())))
-        print('\tStddev of first image form batch: {}'.format(np.std(sample[0].numpy())))
         save_image(sample.view(args.batch_size, 3, img_res[0], img_res[1]).int(),
                    'results/sample_' + str(epoch) + '.png')

@@ -6,19 +6,17 @@ import util
 
 class YCB_VAE(nn.Module):
 
-    img_res = (128, 128)
     num_img_channels = 4
-    latent_space_prop = .25
-    latent_space_size = int(img_res[0] * img_res[1] * latent_space_prop)
+    latent_space_prop = .5
     conv1_kernel = 4
     conv2_kernel = 4
     indices_maxpool1 = []
 
-    def __init__(self, batch_size, img_res=(128, 128)):
+    def __init__(self, batch_size, img_res):
         super(YCB_VAE, self).__init__()
         self.batch_size = batch_size
         self.img_res = img_res
-        self.latent_space_size = int(self.img_res[0] * self.img_res[1] / self.latent_space_prop)
+        self.latent_space_size = int(self.img_res[0] * self.img_res[1] * self.latent_space_prop)
         # encoder
         self.conv1 = nn.Conv2d(self.num_img_channels, self.conv1_kernel, kernel_size=5, padding=2)
         self.batch_norm1 = nn.BatchNorm2d(self.conv1_kernel)
@@ -31,9 +29,9 @@ class YCB_VAE(nn.Module):
 
         # decoder
         self.de_fc1 = nn.Linear(self.latent_space_size, self.conv2_kernel * h_out * w_out)
-        self.de_conv1 = nn.ConvTranspose2d(self.conv2_kernel, self.conv1_kernel, kernel_size=5, padding=2)
+        self.de_conv1 = nn.Conv2d(self.conv2_kernel, self.conv1_kernel, kernel_size=5, padding=2)
         self.de_batch_norm1 = nn.BatchNorm2d(self.conv2_kernel)
-        self.de_conv2 = nn.ConvTranspose2d(self.conv1_kernel, self.num_img_channels, kernel_size=5, padding=2)
+        self.de_conv2 = nn.Conv2d(self.conv1_kernel, self.num_img_channels, kernel_size=5, padding=2)
         self.de_batch_norm2 = nn.BatchNorm2d(self.num_img_channels)
 
     def encode(self, x):
