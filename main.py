@@ -18,7 +18,7 @@ import numpy as np
 parser = argparse.ArgumentParser(description='VAE MNIST Example')
 parser.add_argument('--dataset-folder', type=str, required=True, default='', metavar='N',
                     help='input batch size for training (default: 128)')
-parser.add_argument('--batch-size', type=int, default=8, metavar='N',
+parser.add_argument('--batch-size', type=int, default=2, metavar='N',
                     help='input batch size for training (default: 128)')
 parser.add_argument('--epochs', type=int, default=100, metavar='N',
                     help='number of epochs to train (default: 10)')
@@ -32,21 +32,21 @@ args = parser.parse_args()
 args.cuda = not args.no_cuda and torch.cuda.is_available()
 
 
-img_res = (128, 128)
+img_res = (64, 64)
 
 torch.manual_seed(args.seed)
 
 device = torch.device("cuda" if args.cuda else "cpu")
 
 kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
-train_loader = ycb_loader.DataLoader(args.dataset_folder + 'train/', batch_size=args.batch_size, img_res=img_res)
-test_loader = ycb_loader.DataLoader(args.dataset_folder + 'test/',  batch_size=args.batch_size, img_res=img_res)
+train_loader = ycb_loader.DataLoader(args.dataset_folder + 'train_small/', batch_size=args.batch_size, img_res=img_res)
+test_loader = ycb_loader.DataLoader(args.dataset_folder + 'test_small/',  batch_size=args.batch_size, img_res=img_res)
 
 print('Lenght of training dataset: {}'.format(len(train_loader.dataset)))
 print('Lenght of test dataset: {}'.format(len(test_loader.dataset)))
 
 
-model = YCB_VAE(batch_size=args.batch_size).to(device)
+model = YCB_VAE(batch_size=args.batch_size, img_res=img_res).to(device)
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
 

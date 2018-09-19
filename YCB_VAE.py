@@ -8,8 +8,8 @@ class YCB_VAE(nn.Module):
 
     img_res = (128, 128)
     num_img_channels = 4
-    latent_space_prop = 5
-    latent_space_size = int(img_res[0] * img_res[1] / latent_space_prop)
+    latent_space_prop = .25
+    latent_space_size = int(img_res[0] * img_res[1] * latent_space_prop)
     conv1_kernel = 4
     conv2_kernel = 4
     indices_maxpool1 = []
