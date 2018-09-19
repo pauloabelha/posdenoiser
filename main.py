@@ -43,8 +43,8 @@ else:
     print("Not using CUDA")
 
 kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
-train_loader = ycb_loader.DataLoader(args.dataset_folder + 'train_small/', batch_size=args.batch_size, img_res=img_res)
-test_loader = ycb_loader.DataLoader(args.dataset_folder + 'test_small/',  batch_size=args.batch_size, img_res=img_res)
+train_loader = ycb_loader.DataLoader(args.dataset_folder + 'train/', batch_size=args.batch_size, img_res=img_res)
+test_loader = ycb_loader.DataLoader(args.dataset_folder + 'test/',  batch_size=args.batch_size, img_res=img_res)
 
 print('Lenght of training dataset: {}'.format(len(train_loader.dataset)))
 print('Lenght of test dataset: {}'.format(len(test_loader.dataset)))
